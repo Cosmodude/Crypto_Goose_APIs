@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 import jwt
 from External_API.API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
 from  External_API.Mailing_scripts import send_email
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 load_dotenv()
 
@@ -27,7 +28,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 origins = ["https://www.crypto-goose.com/"]
 
-@app.middleware('https')
+@app.middleware('http')
 def catch_exceptions_middleware(request: Request, call_next):
     try:
         return call_next(request)
@@ -35,13 +36,15 @@ def catch_exceptions_middleware(request: Request, call_next):
         logger.exception(e)
         return Response('Internal server error', status_code=500)
 
-app.add_middleware(
+app.add_middleware(HTTPSRedirectMiddleware)
+     
+'''
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
+)'''
 
 def secure(token):
     print(token)
