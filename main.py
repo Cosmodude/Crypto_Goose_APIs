@@ -14,6 +14,7 @@ from models.User_pre import User
 from sqlalchemy.orm import Session
 import jwt
 from External_API.API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
+from  External_API.Mailing_scripts import send_email
 
 load_dotenv()
 
@@ -24,9 +25,9 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-origins = ["*"]
+origins = ["https://www.crypto-goose.com/"]
 
-@app.middleware('http')
+@app.middleware('https')
 def catch_exceptions_middleware(request: Request, call_next):
     try:
         return call_next(request)
