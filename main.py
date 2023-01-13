@@ -26,7 +26,7 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-origins = ["https://www.crypto-goose.com/"]
+#origins = ["https://www.crypto-goose.com/"]
 origins = ["*"]
 
 
