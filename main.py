@@ -27,6 +27,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 origins = ["https://www.crypto-goose.com/"]
+origins = ["*"]
+
 
 @app.middleware('http')
 def catch_exceptions_middleware(request: Request, call_next):
@@ -36,7 +38,12 @@ def catch_exceptions_middleware(request: Request, call_next):
         logger.exception(e)
         return Response('Internal server error', status_code=500)
 
-app.add_middleware(HTTPSRedirectMiddleware)
+app.add_middleware(
+    HTTPSRedirectMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],)
      
 '''
     CORSMiddleware,
