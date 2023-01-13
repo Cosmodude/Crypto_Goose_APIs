@@ -39,19 +39,20 @@ def catch_exceptions_middleware(request: Request, call_next):
         return Response('Internal server error', status_code=500)
 
 app.add_middleware(
-    HTTPSRedirectMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],)
-     
-'''
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)'''
+    )
+'''
+    HTTPSRedirectMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],)
+'''
+    
 
 def secure(token):
     print(token)
