@@ -19,7 +19,7 @@ def send_email(receiver_email,receiver_name):
             '>\
             <h2> Hello There, {receiver_name}!</h2>\
             <p>Test Email</p>\
-            <p>💚, Crypto Goose Team</p>\
+            <p> Crypto Goose Team</p>\
             </div>"\
      )
 receiver_name = "bill"
