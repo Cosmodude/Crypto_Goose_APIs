@@ -9,7 +9,7 @@ def send_email(receiver_email,receiver_name):
     postmark.emails.send(
         From='contact@crypto-goose.com',
         To=receiver_email,
-        Subject='Postmark test',
+        Subject='Welcome to Crypto Goose',
         HtmlBody= f"<div className='email' style='\
             border: 1px solid black;\
             padding: 20px;\
@@ -17,11 +17,14 @@ def send_email(receiver_email,receiver_name):
             line-height: 2;\
             font-size: 20px;\
             '>\
-            <h2> Hello There, {receiver_name}!</h2>\
-            <p>Test Email</p>\
+            <h2> Hello, {receiver_name}!</h2>\
+            <p>Crypto Goose is currently focusing on working\
+             out the new features and will be giving updates based on your ideas.</p>\
+            <p>We might give you free subscriptions or airdrop\
+             out future tokens for our service when we finish our beta launch!<p>\
             <p> Crypto Goose Team</p>\
             </div>"\
-     )
+    )
 receiver_name = "bill"
 
 send_email('contact@crypto-goose.com',receiver_name)
