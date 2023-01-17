@@ -25,6 +25,6 @@ def send_email(receiver_email,receiver_name):
             <p> Crypto Goose Team</p>\
             </div>"\
     )
-receiver_name = "bill"
+#receiver_name = "bill"
 
-send_email('contact@crypto-goose.com',receiver_name)
+#send_email('dudeabides3000@gmail.com',receiver_name)
