@@ -72,7 +72,7 @@ def get_all(db:Session=Depends(get_db)):
             float(project.nft_floor_price)*\
             CMC_API(project.required_token_name)\
             ["data"][0]["quote"]["USD"]["price"]
-
+            
             project.__dict__["daily_earn_rate_D"]=\
             float(project.daily_earn_rate_ET)*\
             CMC_API(str(project.earn_token_name))\
