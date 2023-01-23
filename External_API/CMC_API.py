@@ -59,8 +59,8 @@ def main():
 
 
 main()
-print(table_name)
-for row in get_from_db(mydb,quering):
+
+"""for row in get_from_db(mydb,quering):
     print(row)
-print(type(get_from_db(mydb,quering)[0][5]))
+print(type(get_from_db(mydb,quering)[0][5]))"""
 
