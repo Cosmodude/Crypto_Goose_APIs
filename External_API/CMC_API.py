@@ -4,6 +4,7 @@ import os
 import requests
 import mysql.connector
 from mysql.connector import errorcode
+from datetime import datetime
 
 mydb = mysql.connector.connect(
     host=os.environ.get('DB_HOST'),
@@ -14,8 +15,9 @@ mydb = mysql.connector.connect(
 print(mydb)
 table_name='nft_pr'
 
-quering=(f"SELECT id, nft_floor_price, daily_earn_rate_ET, required_token_name, earn_token_name, nft_required  FROM {table_name}; ")
-updating=("UPDATE nft_pr SET nft_floor_price_D= %s, daily_earn_rate_D= %s, min_investment= %s WHERE id=%s ;")
+OpenSea_Url_Ending= {"Ice Poker":"decentral-games-ice","Stepn": "stepn","League of Kingdoms": "league-of-kingdoms" }
+quering=(f"SELECT id, nft_floor_price, daily_earn_rate_ET, required_token_name, earn_token_name, nft_required, name  FROM {table_name}; ")
+updating=(f"UPDATE {table_name} SET nft_floor_price_D= %s, daily_earn_rate_D= %s, min_investment= %s WHERE id=%s ;")
 
 def get_from_db(db, process):
     cursor=db.cursor()
@@ -24,6 +26,14 @@ def get_from_db(db, process):
     db.commit() 
     cursor.close()
     return response
+
+def set_update_time(db):
+    cursor=db.cursor()
+    process=f"UPDATE {table_name} SET last_updated='{datetime.now().replace( microsecond=0)}' ;"
+    cursor.execute ( process )
+    db.commit() 
+    cursor.close()
+    return True
 
 def insert_into_db(db,process,data):
     cursor=db.cursor()
@@ -42,6 +52,12 @@ def CoinMarketCap_API(symbol):
     json= requests.get(coinmarketcap_url,params=parameters, headers=headers).json()
     return json
 
+def OpenSea_API(project_name):
+    Opensea_collections_url = "https://api.opensea.io/api/v1/collection/"
+    json= requests.get(Opensea_collections_url+project_name).json()
+    #print(json)
+    return json
+
 def main():
     db_response=get_from_db(mydb,quering)
     for row in db_response:
@@ -56,10 +72,11 @@ def main():
         row[0]
         )
         insert_into_db(mydb,updating,update_data)
+    set_update_time(mydb)
 
 
 main()
-
+print(datetime.now().replace(second=0, microsecond=0))
 """for row in get_from_db(mydb,quering):
     print(row)
 print(type(get_from_db(mydb,quering)[0][5]))"""
