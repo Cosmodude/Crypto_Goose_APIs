@@ -18,7 +18,7 @@ class Projects(Base):
     nft_floor_price=Column("nft_floor_price",Numeric(10,6) )
     earn_token_name=Column("earn_token_name",String(5))
     last_updated=Column("last_updated",DateTime)
-    daily_earn_rate_ET=Column("earn_rate_ET",Numeric(10,6))
+    daily_earn_rate_ET=Column("daily_earn_rate_ET",Numeric(10,6))
     nft_required=Column("nft_required",Integer)
 
     def __repr__(self):
