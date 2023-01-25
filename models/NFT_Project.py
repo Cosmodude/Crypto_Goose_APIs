@@ -43,7 +43,7 @@ class Project(Base):
     discord=Column("discord_url",String(200))
     project_image=Column("project_image_url",String(500))
     nft_floor_price=Column("nft_floor_price",Numeric(10,6) )
-    daily_earn_rate_ET=Column("earn_rate_ET",Numeric(10,6))
+    daily_earn_rate_ET=Column("daily_earn_rate_ET",Numeric(10,6))
     category=Column("project_category",String(100))
     nft_required=Column("nft_required",Integer)
     nft_picture_url=Column("nft_picture_url",String(500))
