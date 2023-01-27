@@ -26,7 +26,7 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-origins = ["https://www.crypto-goose.com/","211.219.144.185"]
+origins = ["https://www.crypto-goose.com*","211.219.144.185"]
 
 
 
@@ -52,7 +52,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],)
 '''
-    
+app = FastAPI()  
 
 def secure(token):
     print(token)
