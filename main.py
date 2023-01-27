@@ -26,8 +26,8 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-#origins = ["https://www.crypto-goose.com/"]
-origins = ["*"]
+origins = ["https://www.crypto-goose.com/","211.219.144.185"]
+
 
 
 @app.middleware('http')
@@ -42,7 +42,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET","POST"],
     allow_headers=["*"],
     )
 '''
