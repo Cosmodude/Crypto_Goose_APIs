@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 origins = ["https://www.crypto-goose.com*","211.219.144.185"]
+origins =["*"]
 
 
 
