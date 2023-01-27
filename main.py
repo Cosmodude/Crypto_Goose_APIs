@@ -63,63 +63,14 @@ def secure(token):
 
 @app.get('/projects')
 def get_all(db:Session=Depends(get_db)):
-    response=db.query(Projects).all()
-    ### Adding dollar prices
-    #print(CMC_API(str(response[0].earn_token_name)))
-    for project in response:
-        if project.name not in OpenSea_Url_Ending.keys():
-            project.__dict__["nft_floor_price_D"]=\
-            float(project.nft_floor_price)*\
-            CMC_API(project.required_token_name)\
-            ["data"][0]["quote"]["USD"]["price"]
-            
-            project.__dict__["daily_earn_rate_D"]=\
-            float(project.daily_earn_rate_ET)*\
-            CMC_API(str(project.earn_token_name))\
-            ["data"][0]["quote"]["USD"]["price"]
-        else: 
-            project.__dict__["nft_floor_price_D"]=\
-            OpenSea_API(OpenSea_Url_Ending[project.name])["collection"]["stats"]["floor_price"]*\
-            CMC_API(project.required_token_name)\
-            ["data"][0]["quote"]["USD"]["price"]
-
-            project.__dict__["daily_earn_rate_D"]=\
-            float(project.daily_earn_rate_ET)*\
-            CMC_API(str(project.earn_token_name))\
-            ["data"][0]["quote"]["USD"]["price"]
-        
-        project.__dict__["min_investment"]=float(project.nft_floor_price_D)*\
-        float(project.nft_required)*1.1
+    response=db.query(Projects).all() 
     return response
     
 
 @app.get('/project')
 def get_all(id: int, db:Session=Depends(get_db)):
     project= db.query(Project).filter(Project.id == id).first()
-    ### Adding dollar prices
-    if project.name not in OpenSea_Url_Ending.keys():
-            project.__dict__["nft_floor_price_D"]=\
-            float(project.nft_floor_price)*\
-            CMC_API(project.required_token_name)\
-            ["data"][0]["quote"]["USD"]["price"]
-
-            project.__dict__["daily_earn_rate_D"]=\
-            float(project.daily_earn_rate_ET)*\
-            CMC_API(str(project.earn_token_name))\
-            ["data"][0]["quote"]["USD"]["price"]
-    else: 
-            project.__dict__["nft_floor_price_D"]=\
-            OpenSea_API(OpenSea_Url_Ending[project.name])["collection"]["stats"]["floor_price"]*\
-            CMC_API(project.required_token_name)\
-            ["data"][0]["quote"]["USD"]["price"]
-
-            project.__dict__["daily_earn_rate_D"]=\
-            float(project.daily_earn_rate_ET)*\
-            CMC_API(str(project.earn_token_name))\
-            ["data"][0]["quote"]["USD"]["price"]
-    
     project.category=str(project.category).split(", ")
-
     return project
 
 @app.post('/user_pre')
