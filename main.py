@@ -27,8 +27,12 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-origins = ["https://www.crypto-goose.com/:1","211.219.144.185", "92.38.148.40","https://www.crypto-goose.com/","https://www.crypto-goose.com/"]
-#origins =["*"]
+origins = [
+    "https://www.crypto-goose.com/:1",
+    "211.219.144.185", "92.38.148.40",
+    "https://www.crypto-goose.com/",
+    ]
+origins =["*"]
 
 
 
@@ -45,7 +49,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET","POST"],
-    allow_headers=["*"],
+    allow_headers=["Content-Type",],
     )
 '''
     HTTPSRedirectMiddleware,
