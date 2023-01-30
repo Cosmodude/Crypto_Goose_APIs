@@ -16,6 +16,7 @@ import jwt
 from External_API.API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
 from  External_API.Mailing_scripts import send_email
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from datetime import datetime
 
 load_dotenv()
 
@@ -26,8 +27,8 @@ logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-origins = ["https://www.crypto-goose.com*","211.219.144.185"]
-origins =["*"]
+origins = ["https://www.crypto-goose.com*","211.219.144.185", "92.38.148.40","https://www.crypto-goose.com/"]
+#origins =["*"]
 
 
 
@@ -76,6 +77,7 @@ def get_all(id: int, db:Session=Depends(get_db)):
 @app.post('/user_pre')
 def post_user(request: PostUser, db:Session=Depends(get_db)):
     add_substance = User(**dict(request))
+    add_substance.entry_time=datetime.datetime
     db.add(add_substance)
     db.commit()
     send_email(request.email, request.name)
