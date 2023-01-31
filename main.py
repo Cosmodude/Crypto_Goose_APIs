@@ -6,7 +6,6 @@ from fastapi.responses import JSONResponse
 from logs.logs_config import LOGGING_CONFIG
 import logging
 from db.db_conf import get_db
-#from fastapi.middleware.cors import CORSMiddleware
 from schemas.request_schemas.Project_request import Postdata
 from schemas.request_schemas.User_pre_request import PostUser
 from models.NFT_Project import Projects,Project
@@ -27,7 +26,6 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 origins = [
-    "https://www.crypto-goose.com/:1",
     "211.219.144.185",
     "92.38.148.40",
     "https://www.crypto-goose.com/",
@@ -44,7 +42,13 @@ def catch_exceptions_middleware(request: Request, call_next):
         logger.exception(e)
         return Response('Internal server error', status_code=500)
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET","POST"],
+    allow_headers=["*"],
+    )
 '''
     HTTPSRedirectMiddleware,
     allow_origins=origins,
@@ -91,13 +95,6 @@ def get_users(db:Session=Depends(get_db)):
     response= db.query(User).all()
     return response
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET","POST"],
-    allow_headers=["*"],
-    )
 #@app.post('/register')
 # def register(request: UserRegister, db: Session=Depends(get_db)):
 #     user = db.query(User).filter(User.login==request.login).first()
