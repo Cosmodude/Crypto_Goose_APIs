@@ -26,12 +26,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 origins = [
-    "211.219.144.185",
-    "92.38.148.40",
     "https://www.crypto-goose.com",
     ]
-#origins =["*"]
-
 
 
 @app.middleware('http')
@@ -49,13 +45,6 @@ app.add_middleware(
     allow_methods=["GET","POST"],
     allow_headers=["*"],
     )
-'''
-    HTTPSRedirectMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],)
-''' 
 
 def secure(token):
     print(token)
