@@ -44,13 +44,7 @@ def catch_exceptions_middleware(request: Request, call_next):
         logger.exception(e)
         return Response('Internal server error', status_code=500)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET","POST"],
-    allow_headers=["*"],
-    )
+
 '''
     HTTPSRedirectMiddleware,
     allow_origins=origins,
@@ -97,6 +91,13 @@ def get_users(db:Session=Depends(get_db)):
     response= db.query(User).all()
     return response
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET","POST"],
+    allow_headers=["*"],
+    )
 #@app.post('/register')
 # def register(request: UserRegister, db: Session=Depends(get_db)):
 #     user = db.query(User).filter(User.login==request.login).first()
