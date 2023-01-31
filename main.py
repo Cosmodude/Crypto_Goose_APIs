@@ -28,7 +28,7 @@ app = FastAPI()
 origins = [
     "211.219.144.185",
     "92.38.148.40",
-    "https://www.crypto-goose.com/",
+    "https://www.crypto-goose.com",
     ]
 #origins =["*"]
 
