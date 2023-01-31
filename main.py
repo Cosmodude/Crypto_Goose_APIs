@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from logs.logs_config import LOGGING_CONFIG
 import logging
 from db.db_conf import get_db
-from fastapi.middleware.cors import CORSMiddleware
+#from fastapi.middleware.cors import CORSMiddleware
 from schemas.request_schemas.Project_request import Postdata
 from schemas.request_schemas.User_pre_request import PostUser
 from models.NFT_Project import Projects,Project
@@ -15,9 +15,8 @@ from sqlalchemy.orm import Session
 import jwt
 from External_API.API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
 from  External_API.Mailing_scripts import send_email
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from datetime import datetime
-
+from starlette.middleware.cors import CORSMiddleware
 load_dotenv()
 
 Not_on_Opensea={"Axie Infinity", "Thetan Arena", "Mobox","Gods Unchained",}
