@@ -27,6 +27,10 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 origins = [
     "https://www.crypto-goose.com",
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:80",
+    "http://localhost:443",
     ]
 
 
