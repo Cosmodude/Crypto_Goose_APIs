@@ -13,6 +13,7 @@ class User(Base):
     name = Column("name",String(30), nullable=False)
     email=Column("email",String(50))
     feedback=Column("feedback",Text)
+    entry_time=Column("entry_time", DateTime)
     
     def __repr__(self):
         return f'{self.id}: {self.first_name}: last_name={self.last_name}'
