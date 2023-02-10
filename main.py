@@ -74,7 +74,7 @@ def get_all(id: int, db:Session=Depends(get_db)):
 @app.post('/user_pre')
 def post_user(request: PostUser, db:Session=Depends(get_db)):
     add_substance = User(**dict(request))
-    add_substance.entry_time=datetime.datetime
+    add_substance.entry_time=datetime.now().replace( microsecond=0)
     db.add(add_substance)
     db.commit()
     send_email(request.email, request.name)
