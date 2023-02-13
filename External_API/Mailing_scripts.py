@@ -11,7 +11,7 @@ def send_email(receiver_email,receiver_name):
         From='contact@crypto-goose.com',
         To=receiver_email,
         Subject='Welcome to Crypto Goose',
-        HtmlBody= io.open("email_template.html", 'r').read()
+        HtmlBody= io.open("External_API/email_template.html", 'r').read()
     )
 #receiver_name = "bill"
 
