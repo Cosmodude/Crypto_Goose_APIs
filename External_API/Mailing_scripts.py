@@ -1,5 +1,5 @@
 ### Sending emails with the Postmark Python library
-import codecs
+import io
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -11,7 +11,7 @@ def send_email(receiver_email,receiver_name):
         From='contact@crypto-goose.com',
         To=receiver_email,
         Subject='Welcome to Crypto Goose',
-        HtmlBody= codecs.open("email_template.html", 'r').read()
+        HtmlBody= io.open("email_template.html", 'r').read()
     )
 #receiver_name = "bill"
 
