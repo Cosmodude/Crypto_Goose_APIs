@@ -12,6 +12,7 @@ from models.NFT_Project import Projects,Project
 from models.User_pre import User
 from sqlalchemy.orm import Session
 import jwt
+import os
 from External_API.Mixed_API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
 from  External_API.Mailing_scripts import send_email
 from datetime import datetime
@@ -27,11 +28,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 origins = [
     "https://www.crypto-goose.com",
-    "http://localhost",
-    "https://localhost",
-    "http://localhost:80",
-    "http://localhost:443",
-    "http://localhost:3000",
+    os.getenv["Development_Origin"],
     ]
 
 
@@ -47,7 +44,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET","POST"],
+    allow_methods=["GET","POST","PUT","DELETE"],
     allow_headers=["*"],
     max_age=3600,
     )
