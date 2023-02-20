@@ -21,7 +21,7 @@ OpenSea_Url_Ending= {"Ice Poker":"decentral-games-ice",
                      "League of Kingdoms": "league-of-kingdoms",
                      "Thetan Arena": "thetan-hero-bnb"}
 quering_all=(f"SELECT id, nft_floor_price, daily_earn_rate_ET, required_token_name, earn_token_name, nft_required, project_name  FROM {table_name}; ")
-updating=(f"UPDATE {table_name} SET nft_floor_price_D= %s, daily_earn_rate_D= %s, min_investment= %s WHERE id=%s ;")
+updating=(f"UPDATE {table_name} SET nft_floor_price_D= %s, daily_earn_rate_D= %s, min_investment= %s, required_token_name= %s WHERE id=%s ;")
 quering_name=(f"SELECT id, project_name FROM {table_name};")
 
 def get_from_db(db, process):
@@ -86,10 +86,13 @@ def main():
         update_data=(
         #nft_floor_price_D
         float(row[1])*required_token["data"][0]["quote"]["USD"]["price"],\
-        #daily_earn_rate_ET
+        #daily_earn_rate_D
         float(row[2])*earn_token["data"][0]["quote"]["USD"]["price"],\
         #min_investment
         float(row[1])*required_token["data"][0]["quote"]["USD"]["price"]*float(row[5])*1.1,\
+        #required_token_name
+        row[3],\
+        #id
         row[0]
         )
         insert_into_db(mydb,updating,update_data)
