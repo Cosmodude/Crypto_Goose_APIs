@@ -6,21 +6,16 @@ from fastapi.responses import JSONResponse
 from logs.logs_config import LOGGING_CONFIG
 import logging
 from db.db_conf import get_db
-from schemas.request_schemas.Project_request import Postdata
 from schemas.request_schemas.User_pre_request import PostUser
 from models.NFT_Project import Projects,Project
 from models.User_pre import User
 from sqlalchemy.orm import Session
 import jwt
 import os
-from External_API.Mixed_API_scripts import CoinMarketCap_API as CMC_API, OpenSea_API
 from  External_API.Mailing_scripts import send_email
 from datetime import datetime
 from starlette.middleware.cors import CORSMiddleware
 load_dotenv()
-
-Not_on_Opensea={"Axie Infinity", "Thetan Arena", "Mobox","Gods Unchained",}
-OpenSea_Url_Ending= {"Ice Poker":"decentral-games-ice","Stepn": "stepn","League of Kingdoms": "league-of-kingdoms" }
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
