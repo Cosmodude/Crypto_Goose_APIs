@@ -20,9 +20,28 @@ OpenSea_Url_Ending= {"Ice Poker":"decentral-games-ice",
                      "Stepn": "stepn",
                      "League of Kingdoms": "league-of-kingdoms",
                      "Thetan Arena": "thetan-hero-bnb"}
-quering_all=(f"SELECT id, nft_floor_price, daily_earn_rate_ET, required_token_name, earn_token_name, nft_required, project_name  FROM {table_name}; ")
-updating=(f"UPDATE {table_name} SET nft_floor_price_D= %s, daily_earn_rate_D= %s, min_investment= %s, required_token_name= %s WHERE id=%s ;")
-quering_name=(f"SELECT id, project_name FROM {table_name};")
+
+quering_all=(f"SELECT id,\
+                nft_floor_price,\
+                daily_earn_rate_ET,\
+                required_token_name,\
+                earn_token_name,\
+                nft_required,\
+                project_name\
+                FROM {table_name}; ")
+
+updating=(f"UPDATE {table_name} SET \
+            nft_floor_price_D= %s,\
+            daily_earn_rate_D= %s,\
+            min_investment= %s,\
+            required_token_name= %s\
+            WHERE id=%s ;")
+
+quering_names=(f"SELECT\
+                id,\
+                project_name,\
+                required_token_name\
+                FROM {table_name};")
 
 def get_from_db(db, process):
     cursor=db.cursor()
@@ -47,13 +66,13 @@ def insert_into_db(db,process,data):
     cursor.close()
     return True
 
-def CoinMarketCap_API(symbol):
+def CoinMarketCap_API(symbol,currency):
     coinmarketcap_url ="https://pro-api.coinmarketcap.com/v2/tools/price-conversion"
     headers = {
         'Accepts': 'application/json',
         'X-CMC_PRO_API_KEY': os.getenv('X-CMC_PRO_API_KEY') ,
             }
-    parameters = { "amount": 1, "symbol": symbol, "convert" : "USD"}
+    parameters = { "amount": 1, "symbol": symbol, "convert" : currency}
     json= requests.get(coinmarketcap_url,params=parameters, headers=headers).json()
     return json
 
@@ -64,24 +83,22 @@ def OpenSea_API(project_name):
     return json
 
 def main():
-    db_response=get_from_db(mydb,quering_name)
+    #Open Sea API
+    db_response=get_from_db(mydb,quering_names)
     for row in db_response:
         if row[1] in OpenSea_Url_Ending.keys():
-            nft_price= OpenSea_API(OpenSea_Url_Ending[row[1]])["collection"]["stats"]["floor_price"]
+            nft_price_ETH= OpenSea_API(OpenSea_Url_Ending[row[1]])["collection"]["stats"]["floor_price"]
+            nft_price=nft_price_ETH*CoinMarketCap_API("ETH",row[2])["data"][0]["quote"][f"{row[2]}"]["price"]
             cursor=mydb.cursor()
             cursor.execute(f"UPDATE {table_name} SET nft_floor_price ={ nft_price } WHERE id={row[0]};")
             mydb.commit() 
             cursor.close()
-
+    #CMC API
     db_response=get_from_db(mydb,quering_all)
-    for row in db_response:
-        if row[6] in OpenSea_Url_Ending.keys():
-            row=list(row)
-            row[3]="ETH"
-            row=tuple(row)
+    for row in db_response:  
         #getting token prices
-        required_token=CoinMarketCap_API(row[3])
-        earn_token=CoinMarketCap_API(row[4])
+        required_token=CoinMarketCap_API(row[3],"USD")
+        earn_token=CoinMarketCap_API(row[4],"USD")
         #print(CMC_response)
         update_data=(
         #nft_floor_price_D
