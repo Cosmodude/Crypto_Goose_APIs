@@ -6,3 +6,6 @@ __pycache__/
 .DS_STORE
 .python-version
 alembic.ini
+test.py
+.hypothesis/
+External_API/Moralis_API_scripts.py

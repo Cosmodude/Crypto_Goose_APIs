@@ -10,9 +10,8 @@ class Postdata(BaseModel):
     buy_token_name:str
     chain_name:str
     floor_price: float
-    buy_token_price:float
     earn_token_name: str
-    earn_token_price: float
     last_updated: datetime
     earn_rate_ET: float
     contract_address: str
+
